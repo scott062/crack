@@ -35,16 +35,27 @@ def is_even(num):
 
 
 def is_palindrome(text):
-    counts = [0] * 300
-    copy_text = text.replace(" ", "")
-    for x in copy_text: 
-        counts[ord(x)] += 1
-    odd_count = 0
-    for count in counts:
-        if count % 2 != 0:
-            odd_count += 1
-            if is_even(len(copy_text)) or odd_count > 1:
-                return False
-    return True
+    counts = [0] * 300 # Max number of unique chars or letters depending on how you read the question
+    oddcount = 0
+    for x in text: 
+        if x != " ":
+            counts[ord(x)] += 1
+            # Check current char count and set odd count ind
+            if is_even(counts[ord(x)]):
+                oddcount -= 1
+            else:
+                oddcount += 1
+    return oddcount <= 1
     
-print(is_palindrome("231"))
+def is_palindrome_set(text):
+    counts = set()
+    for char in text:
+        if char != ' ':
+            if char in counts: # Not sure if set lookups for 'in' are O(1)
+                counts.remove(char)
+            else:
+                counts.add(char)
+    return len(counts) <= 1
+
+
+print(is_palindrome("121"))
